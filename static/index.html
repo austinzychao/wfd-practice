@@ -395,7 +395,8 @@ async function check() {
 
   // Result bubble
   const pillClass = d.score >= 80 ? 'great' : d.score >= 60 ? 'ok' : 'miss';
-  const pillLabel = d.score >= 80 ? '✓ ' + d.score + '%' : d.score >= 60 ? '~ ' + d.score + '%' : '✗ ' + d.score + '%';
+  const prefix = d.score >= 80 ? '✓' : d.score >= 60 ? '~' : '✗';
+  const pillLabel = `${prefix} ${d.correct_words}/${d.total_words} · ${d.score}%`;
   const resultClass = d.score >= 80 ? 'correct' : 'wrong';
 
   let chipsHtml = '<div class="chips">';

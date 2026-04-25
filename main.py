@@ -15,28 +15,28 @@ app = FastAPI()
 AUDIO_DIR = Path("audio_cache")
 AUDIO_DIR.mkdir(exist_ok=True)
 
-# --- Short commute-friendly sentences (5-8 words) ---
+# --- Short commute-friendly sentences  ---
 SENTENCES = [
-    "The class starts at nine",
-    "Please submit your work online",
-    "The exam has been postponed",
-    "Read the handout before class",
-    "Turn off your mobile phones",
-    "The library is now closed",
-    "Results will be posted online",
-    "Attendance is mandatory this week",
-    "The meeting room is booked",
-    "Please bring your student ID",
-    "The deadline has been extended",
-    "Check your email for updates",
-    "The course notes are online",
-    "Late submissions will not count",
-    "The lecture starts in five",
-    "All fees must be paid",
-    "Register before the end date",
-    "The campus café is closed",
-    "Bring a pen and paper",
-    "The test covers three chapters",
+    "Technology has a significant impact on society",
+    "Research has shown that education plays an important role",
+    "Public health is influenced by social and economic factors",
+    "Economic growth is closely related to the use of resources",
+    "This policy is based on recent studies and research findings",
+    "The quality of life has improved in recent years",
+    "A variety of methods can be used to solve this problem",
+    "The data is collected and analyzed over time",
+    "This approach can lead to better performance",
+    "Education contributes to economic and social development",
+    "Many people use mobile phones on a daily basis",
+    "Environmental protection is a major concern in modern society",
+    "This change may result in long term benefits",
+    "The majority of people are influenced by social media",
+    "This system is used on a regular basis",
+    "Results are based on a range of data sources",
+    "The government plays a key role in public policy",
+    "Access to education is essential for social development",
+    "Climate change poses a significant threat to the environment",
+    "Critical thinking is an important skill in academic settings",
 ]
 
 VOICE = "en-AU-NatashaNeural"
