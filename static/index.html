@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>WFD</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f0f0f0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+.header-left { display: flex; align-items: center; gap: 10px; }
+.avatar {
+  width: 36px; height: 36px;
+  background: #111;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 16px;
+}
+.header-name { font-size: 15px; font-weight: 600; }
+.header-sub { font-size: 11px; color: #888; }
+.streak { font-size: 13px; color: #f59e0b; font-weight: 600; }
+
+/* Auto-play toggle */
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.toggle-label { font-size: 11px; color: #888; }
+.toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #ddd;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.slider:before {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  left: 3px; top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+input:checked + .slider { background: #111; }
+input:checked + .slider:before { transform: translateX(16px); }
+
+/* Chat area */
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Bubbles */
+.bubble-row { display: flex; align-items: flex-end; gap: 6px; }
+.bubble-row.right { flex-direction: row-reverse; }
+
+.bubble {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+}
+.bubble.left {
+  background: #fff;
+  border-bottom-left-radius: 4px;
+  color: #111;
+}
+.bubble.right {
+  background: #111;
+  border-bottom-right-radius: 4px;
+  color: #fff;
+}
+.bubble.correct { background: #d1fae5; color: #065f46; }
+.bubble.wrong   { background: #fee2e2; color: #991b1b; }
+
+.bubble-time { font-size: 10px; color: #aaa; flex-shrink: 0; margin-bottom: 2px; }
+
+/* Play button inside bubble */
+.play-bubble-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #111;
+  font-size: 14px;
+  padding: 0;
+  width: 100%;
+}
+.play-icon {
+  width: 32px; height: 32px;
+  background: #111;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  flex-shrink: 0;
+  transition: transform 0.1s;
+}
+.play-icon:active { transform: scale(0.92); }
+.play-label { font-size: 13px; color: #555; }
+
+/* Word chips */
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.chip {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.chip.hit  { background: #bbf7d0; color: #065f46; }
+.chip.miss { background: #fecaca; color: #991b1b; }
+.chip.extra{ background: #fde68a; color: #92400e; }
+
+/* Score pill */
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-top: 6px;
+}
+.score-pill.great { background: #d1fae5; color: #065f46; }
+.score-pill.ok    { background: #fef3c7; color: #92400e; }
+.score-pill.miss  { background: #fee2e2; color: #991b1b; }
+
+/* Bottom input area */
+.bottom {
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 12px;
+  flex-shrink: 0;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+textarea {
+  flex: 1;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+  max-height: 80px;
+  color: #111;
+  background: #f8f8f8;
+}
+textarea:focus { border-color: #bbb; background: #fff; }
+.send-btn {
+  width: 38px; height: 38px;
+  background: #111;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.1s;
+}
+.send-btn:active { transform: scale(0.92); }
+.send-btn:disabled { background: #ccc; cursor: default; }
+
+.hint-text {
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+/* Session end */
+.end-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  margin: 8px 0;
+}
+.end-card h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.end-card p  { font-size: 13px; color: #888; margin-bottom: 16px; }
+.again-btn {
+  padding: 12px 28px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="avatar">🎧</div>
+    <div>
+      <div class="header-name">WFD Bot</div>
+      <div class="header-sub" id="subtext">Loading...</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="streak" id="streakEl"></div>
+    <div class="toggle-wrap">
+      <span class="toggle-label">Auto</span>
+      <label class="toggle">
+        <input type="checkbox" id="autoPlay" onchange="saveAutoPlay()">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="chat" id="chat"></div>
+
+<div class="bottom">
+  <div class="hint-text" id="hintText">Tap play to hear the sentence</div>
+  <div class="input-row">
+    <textarea id="ans" rows="1" placeholder="Type what you heard..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="check()" disabled>↑</button>
+  </div>
+</div>
+
+<script>
+let sentences = [], idx = 0, scores = [], correct = 0, answered = false, audio = null;
+
+function saveAutoPlay() {
+  localStorage.setItem('autoPlay', document.getElementById('autoPlay').checked ? '1' : '0');
+}
+
+function isAutoPlay() {
+  return document.getElementById('autoPlay').checked;
+}
+
+async function init() {
+  // Restore toggle state
+  const saved = localStorage.getItem('autoPlay');
+  if (saved === '1') document.getElementById('autoPlay').checked = true;
+
+  const r = await fetch('/api/sentences?n=10');
+  const d = await r.json();
+  sentences = d.sentences;
+  document.getElementById('subtext').textContent = '10 sentences · commute mode';
+  pushQuestion();
+}
+
+function now() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function addBubble(html, side, extraClass = '') {
+  const chat = document.getElementById('chat');
+  const row = document.createElement('div');
+  row.className = 'bubble-row ' + side;
+
+  const time = document.createElement('div');
+  time.className = 'bubble-time';
+  time.textContent = now();
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble ' + side + (extraClass ? ' ' + extraClass : '');
+  bubble.innerHTML = html;
+
+  if (side === 'left') {
+    row.appendChild(bubble);
+    row.appendChild(time);
+  } else {
+    row.appendChild(time);
+    row.appendChild(bubble);
+  }
+
+  chat.appendChild(row);
+  chat.scrollTop = chat.scrollHeight;
+  return bubble;
+}
+
+function pushQuestion() {
+  if (idx >= sentences.length) { showEnd(); return; }
+  answered = false;
+  document.getElementById('ans').value = '';
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('hintText').textContent = 'Tap play to hear the sentence';
+  document.getElementById('subtext').textContent = (idx + 1) + ' / ' + sentences.length;
+
+  addBubble(`
+    <button class="play-bubble-btn" onclick="play()">
+      <div class="play-icon" id="playIcon">▶</div>
+      <span class="play-label" id="playLabel">Play sentence</span>
+    </button>
+  `, 'left');
+
+  if (isAutoPlay()) setTimeout(() => play(), 400);
+}
+
+async function play() {
+  if (!sentences.length || answered) return;
+  const icon = document.getElementById('playIcon');
+  const label = document.getElementById('playLabel');
+  if (!icon) return;
+
+  if (audio) { audio.pause(); audio = null; }
+
+  icon.textContent = '…';
+  label.textContent = 'Loading...';
+
+  const url = '/api/audio?text=' + encodeURIComponent(sentences[idx]);
+  audio = new Audio(url);
+
+  audio.oncanplay = () => {
+    icon.textContent = '▶';
+    label.textContent = 'Playing...';
+    audio.play();
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('hintText').textContent = 'Type what you heard';
+  };
+
+  audio.onended = () => {
+    label.textContent = 'Tap to replay';
+  };
+
+  audio.onerror = () => {
+    label.textContent = 'Error — try again';
+    icon.textContent = '▶';
+  };
+
+  audio.load();
+}
+
+async function check() {
+  const ans = document.getElementById('ans').value.trim();
+  if (!ans || answered) return;
+  answered = true;
+  document.getElementById('sendBtn').disabled = true;
+
+  // Show user bubble
+  addBubble(ans, 'right');
+
+  // API check
+  const r = await fetch('/api/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sentence: sentences[idx], answer: ans })
+  });
+  const d = await r.json();
+  scores.push(d.score);
+  if (d.score >= 80) correct++;
+
+  // Result bubble
+  const pillClass = d.score >= 80 ? 'great' : d.score >= 60 ? 'ok' : 'miss';
+  const pillLabel = d.score >= 80 ? '✓ ' + d.score + '%' : d.score >= 60 ? '~ ' + d.score + '%' : '✗ ' + d.score + '%';
+  const resultClass = d.score >= 80 ? 'correct' : 'wrong';
+
+  let chipsHtml = '<div class="chips">';
+  d.hits.forEach(w  => chipsHtml += `<span class="chip hit">${w}</span>`);
+  d.missed.forEach(w => chipsHtml += `<span class="chip miss">${w}</span>`);
+  d.extra.forEach(w  => chipsHtml += `<span class="chip extra">+${w}</span>`);
+  chipsHtml += '</div>';
+
+  addBubble(`
+    <div><span class="score-pill ${pillClass}">${pillLabel}</span></div>
+    <div style="font-size:13px;margin-top:6px;color:#555">${sentences[idx]}</div>
+    ${chipsHtml}
+  `, 'left', resultClass);
+
+  // Update streak
+  document.getElementById('streakEl').textContent = correct > 0 ? '🔥 ' + correct : '';
+
+  // Next after short delay
+  setTimeout(() => {
+    idx++;
+    pushQuestion();
+  }, 1200);
+}
+
+function showEnd() {
+  const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+  const msg = avg >= 80 ? 'Solid session! 🎉' : avg >= 60 ? 'Getting there 💪' : 'Keep drilling 📚';
+  const chat = document.getElementById('chat');
+  const card = document.createElement('div');
+  card.className = 'end-card';
+  card.innerHTML = `
+    <h2>${avg}%</h2>
+    <p>${msg} · ${correct} / ${sentences.length} correct</p>
+    <button class="again-btn" onclick="restart()">Practice again</button>
+  `;
+  chat.appendChild(card);
+  chat.scrollTop = chat.scrollHeight;
+  document.getElementById('bottom').style.display = 'none';
+  document.querySelector('.bottom').style.display = 'none';
+}
+
+function restart() {
+  idx = 0; scores = []; correct = 0;
+  document.getElementById('chat').innerHTML = '';
+  document.querySelector('.bottom').style.display = 'block';
+  document.getElementById('streakEl').textContent = '';
+  init();
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    check();
+  }
+}
+
+// Enable send button when typing
+document.getElementById('ans').addEventListener('input', function() {
+  document.getElementById('sendBtn').disabled = !this.value.trim();
+});
+
+init();
+</script>
+</body>
+</html>
