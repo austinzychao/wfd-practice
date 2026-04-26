@@ -22,7 +22,7 @@ body {
 /* Header */
 .header {
   background: #fff;
-  padding: 12px 16px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,56 +31,65 @@ body {
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
 .avatar {
-  width: 36px; height: 36px;
+  width: 34px; height: 34px;
   background: #111;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 16px;
+  color: #fff; font-size: 15px;
 }
-.header-name { font-size: 15px; font-weight: 600; }
+.header-name { font-size: 14px; font-weight: 600; }
 .header-sub { font-size: 11px; color: #888; }
+
+.header-right { display: flex; align-items: center; gap: 10px; }
 .streak { font-size: 13px; color: #f59e0b; font-weight: 600; }
 
+/* Stage badge */
+.stage-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+}
+
 /* Auto-play toggle */
-.toggle-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
+.toggle-wrap { display: flex; align-items: center; gap: 5px; }
 .toggle-label { font-size: 11px; color: #888; }
-.toggle {
-  position: relative;
-  width: 36px;
-  height: 20px;
-  flex-shrink: 0;
-}
+.toggle { position: relative; width: 34px; height: 19px; flex-shrink: 0; }
 .toggle input { opacity: 0; width: 0; height: 0; }
 .slider {
-  position: absolute;
-  inset: 0;
-  background: #ddd;
-  border-radius: 999px;
-  cursor: pointer;
+  position: absolute; inset: 0;
+  background: #ddd; border-radius: 999px; cursor: pointer;
   transition: background 0.2s;
 }
 .slider:before {
-  content: '';
-  position: absolute;
-  width: 14px; height: 14px;
-  left: 3px; top: 3px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 0.2s;
+  content: ''; position: absolute;
+  width: 13px; height: 13px; left: 3px; top: 3px;
+  background: #fff; border-radius: 50%; transition: transform 0.2s;
 }
 input:checked + .slider { background: #111; }
-input:checked + .slider:before { transform: translateX(16px); }
+input:checked + .slider:before { transform: translateX(15px); }
+
+/* Stage summary card */
+.stage-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 12px 12px 0;
+  border: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+.stage-title { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 6px; }
+.progress-bar-wrap { background: #f0f0f0; border-radius: 999px; height: 6px; margin-bottom: 6px; }
+.progress-bar { background: #111; border-radius: 999px; height: 6px; transition: width 0.3s; }
+.stage-meta { display: flex; justify-content: space-between; font-size: 11px; color: #888; }
 
 /* Chat area */
 .chat {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 12px;
+  padding: 12px 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -89,152 +98,98 @@ input:checked + .slider:before { transform: translateX(16px); }
 /* Bubbles */
 .bubble-row { display: flex; align-items: flex-end; gap: 6px; }
 .bubble-row.right { flex-direction: row-reverse; }
-
 .bubble {
   max-width: 75%;
   padding: 10px 14px;
   border-radius: 18px;
   font-size: 14px;
   line-height: 1.5;
-  position: relative;
 }
-.bubble.left {
-  background: #fff;
-  border-bottom-left-radius: 4px;
-  color: #111;
-}
-.bubble.right {
-  background: #111;
-  border-bottom-right-radius: 4px;
-  color: #fff;
-}
+.bubble.left { background: #fff; border-bottom-left-radius: 4px; color: #111; }
+.bubble.right { background: #111; border-bottom-right-radius: 4px; color: #fff; }
 .bubble.correct { background: #d1fae5; color: #065f46; }
-.bubble.wrong   { background: #fee2e2; color: #991b1b; }
-
+.bubble.wrong { background: #fee2e2; color: #991b1b; }
 .bubble-time { font-size: 10px; color: #aaa; flex-shrink: 0; margin-bottom: 2px; }
 
-/* Play button inside bubble */
+/* Play button */
 .play-bubble-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #111;
-  font-size: 14px;
-  padding: 0;
-  width: 100%;
+  display: flex; align-items: center; gap: 8px;
+  background: none; border: none; cursor: pointer;
+  color: #111; font-size: 14px; padding: 0; width: 100%;
 }
 .play-icon {
-  width: 32px; height: 32px;
-  background: #111;
-  border-radius: 50%;
+  width: 30px; height: 30px; background: #111; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  color: #fff;
-  font-size: 13px;
-  flex-shrink: 0;
-  transition: transform 0.1s;
+  color: #fff; font-size: 12px; flex-shrink: 0;
 }
-.play-icon:active { transform: scale(0.92); }
 .play-label { font-size: 13px; color: #555; }
 
 /* Word chips */
 .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-.chip {
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
-}
+.chip { padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 500; }
 .chip.hit  { background: #bbf7d0; color: #065f46; }
 .chip.miss { background: #fecaca; color: #991b1b; }
 .chip.extra{ background: #fde68a; color: #92400e; }
 
 /* Score pill */
 .score-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 2px 10px;
-  border-radius: 999px;
-  margin-top: 6px;
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600;
+  padding: 2px 10px; border-radius: 999px; margin-top: 6px;
 }
 .score-pill.great { background: #d1fae5; color: #065f46; }
 .score-pill.ok    { background: #fef3c7; color: #92400e; }
 .score-pill.miss  { background: #fee2e2; color: #991b1b; }
 
-/* Bottom input area */
+/* Stage result card */
+.result-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  margin: 4px 0;
+}
+.result-card h2 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.result-card .sub { font-size: 13px; color: #888; margin-bottom: 6px; }
+.result-card .verdict {
+  font-size: 13px; font-weight: 600;
+  padding: 6px 14px; border-radius: 999px;
+  display: inline-block; margin-bottom: 16px;
+}
+.verdict.up   { background: #d1fae5; color: #065f46; }
+.verdict.same { background: #fef3c7; color: #92400e; }
+.verdict.down { background: #fee2e2; color: #991b1b; }
+.action-btn {
+  width: 100%; padding: 13px;
+  background: #111; color: #fff;
+  border: none; border-radius: 12px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+}
+
+/* Bottom input */
 .bottom {
   background: #fff;
   border-top: 1px solid #e0e0e0;
   padding: 10px 12px;
   flex-shrink: 0;
 }
-.input-row {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-}
+.hint-text { font-size: 11px; color: #aaa; text-align: center; margin-bottom: 6px; }
+.input-row { display: flex; gap: 8px; align-items: flex-end; }
 textarea {
-  flex: 1;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  padding: 9px 14px;
-  font-size: 14px;
-  font-family: inherit;
-  resize: none;
-  outline: none;
-  line-height: 1.5;
-  max-height: 80px;
-  color: #111;
-  background: #f8f8f8;
+  flex: 1; border: 1px solid #e0e0e0; border-radius: 20px;
+  padding: 9px 14px; font-size: 14px; font-family: inherit;
+  resize: none; outline: none; line-height: 1.5;
+  max-height: 80px; color: #111; background: #f8f8f8;
 }
 textarea:focus { border-color: #bbb; background: #fff; }
 .send-btn {
-  width: 38px; height: 38px;
-  background: #111;
-  border: none;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
+  width: 38px; height: 38px; background: #111;
+  border: none; border-radius: 50%; color: #fff;
+  font-size: 16px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.1s;
 }
-.send-btn:active { transform: scale(0.92); }
 .send-btn:disabled { background: #ccc; cursor: default; }
-
-.hint-text {
-  font-size: 11px;
-  color: #aaa;
-  text-align: center;
-  margin-bottom: 6px;
-}
-
-/* Session end */
-.end-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  margin: 8px 0;
-}
-.end-card h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-.end-card p  { font-size: 13px; color: #888; margin-bottom: 16px; }
-.again-btn {
-  padding: 12px 28px;
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
 </style>
 </head>
 <body>
@@ -243,12 +198,13 @@ textarea:focus { border-color: #bbb; background: #fff; }
   <div class="header-left">
     <div class="avatar">🎧</div>
     <div>
-      <div class="header-name">WFD Bot</div>
+      <div class="header-name">WFD Practice</div>
       <div class="header-sub" id="subtext">Loading...</div>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <div class="streak" id="streakEl"></div>
+  <div class="header-right">
+    <span class="streak" id="streakEl"></span>
+    <span class="stage-badge" id="stageBadge">S1</span>
     <div class="toggle-wrap">
       <span class="toggle-label">Auto</span>
       <label class="toggle">
@@ -256,6 +212,17 @@ textarea:focus { border-color: #bbb; background: #fff; }
         <span class="slider"></span>
       </label>
     </div>
+  </div>
+</div>
+
+<div class="stage-card">
+  <div class="stage-title" id="stageTitle">Stage 1 · Foundations</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  </div>
+  <div class="stage-meta">
+    <span id="progressText">0 / 30</span>
+    <span id="accuracyText">Accuracy: —</span>
   </div>
 </div>
 
@@ -270,26 +237,47 @@ textarea:focus { border-color: #bbb; background: #fff; }
 </div>
 
 <script>
+const STAGE_NAMES = { '1': 'Foundations', '2': 'Sentences', '3': 'Academic' };
+const PASS = 80, FAIL = 20;
+const TOTAL = 30;
+
+let stage = localStorage.getItem('stage') || '1';
 let sentences = [], idx = 0, scores = [], correct = 0, answered = false, audio = null;
 
 function saveAutoPlay() {
   localStorage.setItem('autoPlay', document.getElementById('autoPlay').checked ? '1' : '0');
 }
-
-function isAutoPlay() {
-  return document.getElementById('autoPlay').checked;
-}
+function isAutoPlay() { return document.getElementById('autoPlay').checked; }
 
 async function init() {
-  // Restore toggle state
-  const saved = localStorage.getItem('autoPlay');
-  if (saved === '1') document.getElementById('autoPlay').checked = true;
+  if (localStorage.getItem('autoPlay') === '1') document.getElementById('autoPlay').checked = true;
+  await loadStage(stage);
+}
 
-  const r = await fetch('/api/sentences?n=10');
+async function loadStage(s) {
+  stage = s;
+  localStorage.setItem('stage', s);
+  sentences = []; idx = 0; scores = []; correct = 0; answered = false;
+  document.getElementById('chat').innerHTML = '';
+  document.getElementById('streakEl').textContent = '';
+
+  const r = await fetch(`/api/sentences?stage=${s}&n=${TOTAL}`);
   const d = await r.json();
   sentences = d.sentences;
-  document.getElementById('subtext').textContent = '10 sentences · commute mode';
+
+  document.getElementById('stageBadge').textContent = 'S' + s;
+  document.getElementById('stageTitle').textContent = `Stage ${s} · ${STAGE_NAMES[s]}`;
+  document.getElementById('subtext').textContent = `${STAGE_NAMES[s]} · ${TOTAL} questions`;
+  updateProgress();
   pushQuestion();
+}
+
+function updateProgress() {
+  const pct = Math.round((idx / TOTAL) * 100);
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = idx + ' / ' + TOTAL;
+  document.getElementById('accuracyText').textContent = avg !== null ? 'Accuracy: ' + avg + '%' : 'Accuracy: —';
 }
 
 function now() {
@@ -300,35 +288,25 @@ function addBubble(html, side, extraClass = '') {
   const chat = document.getElementById('chat');
   const row = document.createElement('div');
   row.className = 'bubble-row ' + side;
-
   const time = document.createElement('div');
   time.className = 'bubble-time';
   time.textContent = now();
-
   const bubble = document.createElement('div');
   bubble.className = 'bubble ' + side + (extraClass ? ' ' + extraClass : '');
   bubble.innerHTML = html;
-
-  if (side === 'left') {
-    row.appendChild(bubble);
-    row.appendChild(time);
-  } else {
-    row.appendChild(time);
-    row.appendChild(bubble);
-  }
-
+  if (side === 'left') { row.appendChild(bubble); row.appendChild(time); }
+  else { row.appendChild(time); row.appendChild(bubble); }
   chat.appendChild(row);
   chat.scrollTop = chat.scrollHeight;
-  return bubble;
 }
 
 function pushQuestion() {
-  if (idx >= sentences.length) { showEnd(); return; }
+  if (idx >= sentences.length) { showStageResult(); return; }
   answered = false;
   document.getElementById('ans').value = '';
   document.getElementById('sendBtn').disabled = true;
   document.getElementById('hintText').textContent = 'Tap play to hear the sentence';
-  document.getElementById('subtext').textContent = (idx + 1) + ' / ' + sentences.length;
+  updateProgress();
 
   addBubble(`
     <button class="play-bubble-btn" onclick="play()">
@@ -345,32 +323,18 @@ async function play() {
   const icon = document.getElementById('playIcon');
   const label = document.getElementById('playLabel');
   if (!icon) return;
-
   if (audio) { audio.pause(); audio = null; }
-
-  icon.textContent = '…';
-  label.textContent = 'Loading...';
-
+  icon.textContent = '…'; label.textContent = 'Loading...';
   const url = '/api/audio?text=' + encodeURIComponent(sentences[idx]);
   audio = new Audio(url);
-
   audio.oncanplay = () => {
-    icon.textContent = '▶';
-    label.textContent = 'Playing...';
+    icon.textContent = '▶'; label.textContent = 'Playing...';
     audio.play();
     document.getElementById('sendBtn').disabled = false;
     document.getElementById('hintText').textContent = 'Type what you heard';
   };
-
-  audio.onended = () => {
-    label.textContent = 'Tap to replay';
-  };
-
-  audio.onerror = () => {
-    label.textContent = 'Error — try again';
-    icon.textContent = '▶';
-  };
-
+  audio.onended = () => { label.textContent = 'Tap to replay'; };
+  audio.onerror = () => { label.textContent = 'Error — try again'; icon.textContent = '▶'; };
   audio.load();
 }
 
@@ -379,11 +343,8 @@ async function check() {
   if (!ans || answered) return;
   answered = true;
   document.getElementById('sendBtn').disabled = true;
-
-  // Show user bubble
   addBubble(ans, 'right');
 
-  // API check
   const r = await fetch('/api/check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -393,7 +354,6 @@ async function check() {
   scores.push(d.score);
   if (d.score >= 80) correct++;
 
-  // Result bubble
   const pillClass = d.score >= 80 ? 'great' : d.score >= 60 ? 'ok' : 'miss';
   const prefix = d.score >= 80 ? '✓' : d.score >= 60 ? '~' : '✗';
   const pillLabel = `${prefix} ${d.correct_words}/${d.total_words} · ${d.score}%`;
@@ -411,39 +371,51 @@ async function check() {
     ${chipsHtml}
   `, 'left', resultClass);
 
-  // Update streak
   document.getElementById('streakEl').textContent = correct > 0 ? '🔥 ' + correct : '';
 
-  // Next after short delay
-  setTimeout(() => {
-    idx++;
-    pushQuestion();
-  }, 1200);
+  setTimeout(() => { idx++; pushQuestion(); }, 1200);
 }
 
-function showEnd() {
-  const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-  const msg = avg >= 80 ? 'Solid session! 🎉' : avg >= 60 ? 'Getting there 💪' : 'Keep drilling 📚';
+function showStageResult() {
+  const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
   const chat = document.getElementById('chat');
+
+  let verdictClass, verdictText, btnText, nextStage;
+
+  if (avg >= PASS && stage < '3') {
+    verdictClass = 'up';
+    verdictText = '🎉 Advancing to Stage ' + (parseInt(stage)+1);
+    btnText = 'Start Stage ' + (parseInt(stage)+1);
+    nextStage = String(parseInt(stage)+1);
+  } else if (avg <= FAIL && stage > '1') {
+    verdictClass = 'down';
+    verdictText = '📚 Back to Stage ' + (parseInt(stage)-1);
+    btnText = 'Retry Stage ' + (parseInt(stage)-1);
+    nextStage = String(parseInt(stage)-1);
+  } else if (avg >= PASS && stage === '3') {
+    verdictClass = 'up';
+    verdictText = '🏆 You completed all stages!';
+    btnText = 'Practice again';
+    nextStage = '3';
+  } else {
+    verdictClass = 'same';
+    verdictText = '💪 Keep going — try again';
+    btnText = 'Retry this stage';
+    nextStage = stage;
+  }
+
   const card = document.createElement('div');
-  card.className = 'end-card';
+  card.className = 'result-card';
   card.innerHTML = `
     <h2>${avg}%</h2>
-    <p>${msg} · ${correct} / ${sentences.length} correct</p>
-    <button class="again-btn" onclick="restart()">Practice again</button>
+    <div class="sub">${correct} / ${TOTAL} correct · Stage ${stage} · ${STAGE_NAMES[stage]}</div>
+    <div class="verdict ${verdictClass}">${verdictText}</div>
+    <button class="action-btn" onclick="loadStage('${nextStage}')">${btnText}</button>
   `;
   chat.appendChild(card);
   chat.scrollTop = chat.scrollHeight;
-  document.getElementById('bottom').style.display = 'none';
   document.querySelector('.bottom').style.display = 'none';
-}
-
-function restart() {
-  idx = 0; scores = []; correct = 0;
-  document.getElementById('chat').innerHTML = '';
-  document.querySelector('.bottom').style.display = 'block';
-  document.getElementById('streakEl').textContent = '';
-  init();
+  updateProgress();
 }
 
 function autoResize(el) {
@@ -452,18 +424,13 @@ function autoResize(el) {
 }
 
 function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    check();
-  }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); check(); }
 }
 
-// Enable send button when typing
 document.getElementById('ans').addEventListener('input', function() {
   document.getElementById('sendBtn').disabled = !this.value.trim();
 });
 
-// Fix keyboard covering input on mobile
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', () => {
     document.body.style.height = window.visualViewport.height + 'px';
